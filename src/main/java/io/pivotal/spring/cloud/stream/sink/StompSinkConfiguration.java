@@ -32,6 +32,7 @@ import org.springframework.messaging.MessageChannel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
 @Configuration
 @EnableBinding(Sink.class)
 @EnableConfigurationProperties(StompSinkProperties.class)
@@ -50,15 +51,18 @@ public class StompSinkConfiguration extends AbstractWebSocketMessageBrokerConfig
     @ServiceActivator(inputChannel=Sink.INPUT)
     public void handle(Message<?> message) {
         if (logger.isTraceEnabled()) {
-            logger.trace(String.format(String.format("Handling message: %s", message)));
+            logger.trace(String.format("Handling message: %s", message));
         }
 
         String topic = properties.getTopic();
 
         if (topic == null) {
             topic = (String)message.getHeaders().get("amqp_receivedExchange");
-            template.convertAndSend("/topic/" + topic, message.getPayload());
         }
+
+        StompPayload stormPayload = new StompPayload(message.getPayload());
+
+        template.convertAndSend("/topic/" + topic, stormPayload);
 
 
     }
@@ -90,12 +94,12 @@ public class StompSinkConfiguration extends AbstractWebSocketMessageBrokerConfig
                     public Message<?> preSend(Message<?> message, MessageChannel channel) {
                         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
                         if (accessor.getCommand() != StompCommand.SEND) {
-                            if (logger.isDebugEnabled()) {
-                                logger.debug(String.format(String.format("%s: %s", channel, message)));
+                            if (logger.isInfoEnabled()) {
+                                logger.info(String.format("%s: %s", channel, message));
                             }
-                        } else if (accessor.getCommand() == StompCommand.SEND) {
+                        } else {
                             if (logger.isTraceEnabled()) {
-                                logger.trace(String.format(String.format("%s: %s", channel, message)));
+                                logger.trace(String.format("%s: %s", channel, message));
                             }
                         }
                         return message;

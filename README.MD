@@ -1,4 +1,4 @@
-# StompSink
+# spring-cloud-stream-sink-stomp
 ## For what is the simulator created for?
 Data-MicroServices Application provided as Spring Cloud Stream
 
@@ -25,10 +25,10 @@ rabbitmq-server
 
 ### 1. Test with Time Source
 
-Start Local StompSink using RabbitMQ
+Start Local Stomp Sink using RabbitMQ
 
 ```
-java -jar target/StompSink-0.0.1-SNAPSHOT.jar --server.port=8080 --stomp.withSockJS=true --spring.cloud.stream.bindings.input.destination=ticktock --logging.level.io.pivotal.spring.cloud.stream.sink=TRACE
+java -jar target/spring-cloud-stream-sink-stomp-0.0.1-SNAPSHOT.jar --server.port=8080 --stomp.withSockJS=true --spring.cloud.stream.bindings.input.destination=ticktock --logging.level.io.pivotal.spring.cloud.stream.sink=TRACE
 ```
 
 Start Time Source using RabbitMQ
@@ -52,7 +52,7 @@ Got the following log.
 Start Local StompSink using RabbitMQ
 
 ```
-java -jar target/StompSink-0.0.1-SNAPSHOT.jar --server.port=8080 --stomp.withSockJS=true --spring.cloud.stream.bindings.input.destination=httpjson --logging.level.io.pivotal.spring.cloud.stream.sink=TRACE
+java -jar target/spring-cloud-stream-sink-stomp-0.0.1-SNAPSHOT.jar --server.port=8080 --stomp.topic=httpjson --stomp.withSockJS=true --spring.cloud.stream.bindings.input.destination=httpjson --logging.level.io.pivotal.spring.cloud.stream.sink=TRACE
 ```
 
 Start HttpSource using RabbitMQ
@@ -107,43 +107,4 @@ mvn package
 
 ```
 rabbitmq-server
-```
-
-### Download the Spring Cloud Data Flow Server and Shell apps
-
-```
-wget http://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-server-local/1.0.0.BUILD-SNAPSHOT/spring-cloud-dataflow-server-local-1.0.0.BUILD-SNAPSHOT.jar
-wget http://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/1.0.0.BUILD-SNAPSHOT/spring-cloud-dataflow-shell-1.0.0.BUILD-SNAPSHOT.jar
-```
-
-### Start Dataflow Server Local using RabbitMQ
-
-```
-java -jar spring-cloud-dataflow-server-local-1.0.0.BUILD-SNAPSHOT.jar --binder=rabbit
-```
-
-### Start Dataflow Shell
-
-```
-java -jar spring-cloud-dataflow-shell-1.0.0.BUILD-SNAPSHOT.jar
-```
-
-### Register a custom sink app - stomp in Dataflow Shell
-
-Use the built jar for rabbit
-
-```
-app register --name stomp --type sink --uri file:///Users/lei_xu/Desktop/spring-cloud-stream/StompSink-0.0.1-SNAPSHOT.jar
-```
-
-Or use the uploaded jar
-
-```
-app register --name flat2tuple --type processor --uri https://rawgit.com/komushi/spring-cloud-stream/master/StompSink-0.0.1-SNAPSHOT.jar
-```
-
-### Start a stream in Dataflow Shell
-
-```
-stream create --name ticktock2stomp --definition "time | stomp --logging.level.io.pivotal.spring.cloud.stream.sink=TRACE" --deploy
 ```

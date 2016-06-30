@@ -9,43 +9,15 @@
     <relativePath></relativePath>
   </parent>
   <groupId>io.pivotal.spring.cloud.stream.sink</groupId>
-  <artifactId>StompSink</artifactId>
+  <artifactId>spring-cloud-stream-sink-stomp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>StompSink</name>
+  <name>spring-cloud-stream-sink-stomp</name>
   <description>Stomp Sink for Spring Cloud Stream Based on WebSocket</description>
   <build>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>0.14.2</version>
-        <configuration>
-          <images>
-            <image>
-              <name>${docker.image}</name>
-              <build>
-                <from>anapsix/alpine-java:8</from>
-                <volumes>
-                  <volume>/tmp</volume>
-                </volumes>
-                <entryPoint>
-                  <exec>
-                    <arg>java</arg>
-                    <arg>-jar</arg>
-                    <arg>/maven/demo.jar</arg>
-                  </exec>
-                </entryPoint>
-                <assembly>
-                  <descriptor>assembly.xml</descriptor>
-                </assembly>
-              </build>
-            </image>
-          </images>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -79,28 +51,13 @@
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+      <version>1.0.2.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.cloud.stream.app</groupId>
-        <artifactId>spring-cloud-stream-app-dependencies</artifactId>
-        <version>1.0.0.RC1</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <properties>
     <docker.image>${project.artifactId}-app</docker.image>
     <java.version>1.8</java.version>

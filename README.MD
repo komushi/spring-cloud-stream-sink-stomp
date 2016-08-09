@@ -108,3 +108,8 @@ mvn package
 ```
 rabbitmq-server
 ```
+
+# TODO: use Full-Featured Broker - External Broker such as RabbitMQ
+Reference:
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html#websocket-stomp-handle-broker-relay
+https://github.com/bijukunjummen/spring-websocket-chat-sample

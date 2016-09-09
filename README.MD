@@ -60,7 +60,7 @@ Start HttpSource using RabbitMQ
 https://rawgit.com/komushi/spring-cloud-stream/master/http-source-rabbit-1.0.0.BUILD-SNAPSHOT.jar
 
 ```
-java -jar time-source-rabbit-1.0.0.BUILD-SNAPSHOT.jar --server.port=7070 --spring.cloud.stream.bindings.output.destination=httpjson
+java -jar http-source-rabbit-1.0.0.BUILD-SNAPSHOT.jar --server.port=7070 --spring.cloud.stream.bindings.output.destination=httpjson
 ```
 
 Curl POST

@@ -11,18 +11,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix="stomp")
 public class StompSinkProperties {
 
-
-    public static final String DEFAULT_ENDPOINT = "stomp";
-
+    /**
+     * The Websocket Path on which a StompSink consumer needs to connect
+     */
+    private String endpoint = "stomp";
 
     /**
-     * the websocketPath on which a StompSink consumer needs to connect. Default is <tt>/stomp</tt>
+     * The topic to subscribe/publish
      */
-    String endpoint = DEFAULT_ENDPOINT;
+    private String topic;
 
-    String topic;
-
-    Boolean withSockJS = false;
+    /**
+     * Whether to use SockJS
+     */
+    private Boolean withsockjs = false;
 
 
     public String getEndpoint() {
@@ -42,11 +44,11 @@ public class StompSinkProperties {
         this.topic = topic;
     }
 
-    public Boolean getWithSockJS() {
-        return withSockJS;
+    public Boolean getWithsockjs() {
+        return withsockjs;
     }
 
-    public void setWithSockJS(Boolean withSockJS) {
-        this.withSockJS = withSockJS;
+    public void setWithsockjs(Boolean withsockjs) {
+        this.withsockjs = withsockjs;
     }
 }

@@ -1,5 +1,5 @@
 # spring-cloud-stream-sink-stomp
-## For what is the simulator created for?
+## For what is the Spring Cloud Stream app created for?
 Data-MicroServices Application provided as Spring Cloud Stream
 
 # I. Local Java CLI

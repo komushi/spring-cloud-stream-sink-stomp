@@ -83,38 +83,7 @@ curl -H "Content-Type: application/json" -X POST -d'[{"rank":1,"from":"C167.155"
 
 You can subscribe http://localhost:8080/stomp at /topic/httpjson to retrieve the inbound messages.
 
-# II. Local Test with Sring Dataflow Server
-
-## Prerequisites
-
-* Maven
-* Spring Cloud Dataflow Shell
-* Spring Cloud Dataflow Server - Local
-* RabbitMQ
-
-## Quick Start
-
-### Download and Build
-You can skip this step if you use the jar I uploaded.
-
-```
-git clone https://github.com/komushi/spring-cloud-stream-processor-flat2tuple.git
-cd spring-cloud-stream-processor-flat2tuple
-mvn package
-```
-
-### Start RabbitMQ
-
-```
-rabbitmq-server
-```
-
-# TODO: use Full-Featured Broker - External Broker such as RabbitMQ
-Reference:
-http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html#websocket-stomp-handle-broker-relay
-https://github.com/bijukunjummen/spring-websocket-chat-sample
-
-# Another deployment option - spring boot in docker
+# II. Another deployment option - spring boot in docker
 
 ## 1. assembly.xml under src/main/docker
 ```
@@ -136,11 +105,26 @@ https://github.com/bijukunjummen/spring-websocket-chat-sample
 ```
 
 ## 2. Modify docker-maven-plugin inside pom.xml
+### 2.1 Entry Point Shell Mode
 Under plugin/configuration/images/image/build/ modify entryPoint/shell like below.
 ```
 ...
 <entryPoint>
     <shell>java -jar /maven/spring-cloud-stream-sink-stomp.jar $SCS_OPTS</shell>
+</entryPoint>
+...
+```
+
+### 2.2 Entry Point Exec Mode
+Under plugin/configuration/images/image/build/ modify entryPoint/shell like below.
+```
+...
+<entryPoint>
+    <exec>
+        <arg>java</arg>
+        <arg>-jar</arg>
+        <arg>/maven/spring-cloud-stream-sink-stomp.jar</arg>
+    </exec>
 </entryPoint>
 ...
 ```
@@ -160,10 +144,27 @@ mvn docker:push -Ddocker.username=[provide your username] -Ddocker.password=[pro
 
 Since we use docker container here and the Spring Cloud Stream App deault port is 8080 so the --server.port(the container port) parameter does not need to be specified for docker deployment.
 
+### 4.1 Entry Point Shell Mode
+
 ```
-docker run -e SCS_OPTS='--stomp.withSockJS=true --spring.rabbitmq.host=192.168.10.1 --spring.rabbitmq.port=5672' -p <host_port>:8080 komushi/spring-cloud-stream-sink-stomp
+docker run -e SCS_OPTS='<app_args>' -p <host_port>:<container_port> komushi/spring-cloud-stream-sink-stomp
 ```
 
 ```
 docker run -e SCS_OPTS='--stomp.withSockJS=true --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test' -p 8888:8080 komushi/spring-cloud-stream-sink-stomp
 ```
+
+### 4.2 Entry Point Exec Mode
+
+```
+docker run -p <host_port>:<container_port> komushi/spring-cloud-stream-sink-stomp <app_args>
+```
+
+```
+docker run -p 8888:8080 komushi/spring-cloud-stream-sink-stomp --stomp.withSockJS=true --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test
+```
+
+# TODO: use Full-Featured Broker - External Broker such as RabbitMQ
+Reference:
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html#websocket-stomp-handle-broker-relay
+https://github.com/bijukunjummen/spring-websocket-chat-sample

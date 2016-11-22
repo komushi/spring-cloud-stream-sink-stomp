@@ -34,7 +34,12 @@
                   <volume>/tmp</volume>
                 </volumes>
                 <entryPoint>
-                  <shell>java -jar /maven/spring-cloud-stream-sink-stomp.jar $SCS_OPTS</shell>
+                  <!-- <shell>java -jar /maven/spring-cloud-stream-sink-stomp.jar $SCS_OPTS</shell> -->
+                  <exec>
+                    <arg>java</arg>
+                    <arg>-jar</arg>
+                    <arg>/maven/spring-cloud-stream-sink-stomp.jar</arg>
+                  </exec>
                 </entryPoint>
                 <assembly>
                   <descriptor>assembly.xml</descriptor>

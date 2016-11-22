@@ -113,3 +113,57 @@ rabbitmq-server
 Reference:
 http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html#websocket-stomp-handle-broker-relay
 https://github.com/bijukunjummen/spring-websocket-chat-sample
+
+# Another deployment option - spring boot in docker
+
+## 1. assembly.xml under src/main/docker
+```
+<assembly
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <id>spring-cloud-stream-sink-stomp</id>
+    <dependencySets>
+        <dependencySet>
+            <includes>
+                <include>io.pivotal.spring.cloud.stream.sink:spring-cloud-stream-sink-stomp</include>
+            </includes>
+            <outputDirectory>.</outputDirectory>
+            <outputFileNameMapping>spring-cloud-stream-sink-stomp.jar</outputFileNameMapping>
+        </dependencySet>
+    </dependencySets>
+</assembly>
+```
+
+## 2. Modify docker-maven-plugin inside pom.xml
+Under plugin/configuration/images/image/build/ modify entryPoint/shell like below.
+```
+...
+<entryPoint>
+    <shell>java -jar /maven/spring-cloud-stream-sink-stomp.jar $SCS_OPTS</shell>
+</entryPoint>
+...
+```
+
+## 3. Build docker image by maven
+```
+mvn clean package docker:build
+```
+
+if necessay push to docker hub
+
+```
+mvn docker:push -Ddocker.username=[provide your username] -Ddocker.password=[provide password]
+```
+
+## 4. Run the image
+
+Since we use docker container here and the Spring Cloud Stream App deault port is 8080 so the --server.port(the container port) parameter does not need to be specified for docker deployment.
+
+```
+docker run -e SCS_OPTS='--stomp.withSockJS=true --spring.rabbitmq.host=192.168.10.1 --spring.rabbitmq.port=5672' -p <host_port>:8080 komushi/spring-cloud-stream-sink-stomp
+```
+
+```
+docker run -e SCS_OPTS='--stomp.withSockJS=true --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test' -p 8888:8080 komushi/spring-cloud-stream-sink-stomp
+```

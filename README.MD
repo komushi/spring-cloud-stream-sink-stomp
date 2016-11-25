@@ -106,24 +106,24 @@ You can subscribe http://localhost:8080/stomp at /topic/httpjson to retrieve the
 
 ## 2. Modify docker-maven-plugin inside pom.xml
 ### 2.1 Entry Point Shell Mode
-Under plugin/configuration/images/image/build/ modify entryPoint/shell like below.
+Under plugin/configuration/images/image/build/, modify entryPoint like below.
 ```
 ...
 <entryPoint>
-    <shell>java -jar /maven/spring-cloud-stream-sink-stomp.jar $SCS_OPTS</shell>
+    <shell>java -jar /maven/{project.artifactId}.jar $SCS_OPTS</shell>
 </entryPoint>
 ...
 ```
 
 ### 2.2 Entry Point Exec Mode
-Under plugin/configuration/images/image/build/ modify entryPoint/shell like below.
+Under plugin/configuration/images/image/build/, modify entryPoint like below.
 ```
 ...
 <entryPoint>
     <exec>
         <arg>java</arg>
         <arg>-jar</arg>
-        <arg>/maven/spring-cloud-stream-sink-stomp.jar</arg>
+        <arg>/maven/{project.artifactId}.jar</arg>
     </exec>
 </entryPoint>
 ...

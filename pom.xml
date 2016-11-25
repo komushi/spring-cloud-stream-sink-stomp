@@ -34,11 +34,11 @@
                   <volume>/tmp</volume>
                 </volumes>
                 <entryPoint>
-                  <!-- <shell>java -jar /maven/spring-cloud-stream-sink-stomp.jar $SCS_OPTS</shell> -->
+                  <!-- <shell>java -jar /maven/{project.artifactId}.jar $SCS_OPTS</shell> -->
                   <exec>
                     <arg>java</arg>
                     <arg>-jar</arg>
-                    <arg>/maven/spring-cloud-stream-sink-stomp.jar</arg>
+                    <arg>/maven/{project.artifactId}.jar</arg>
                   </exec>
                 </entryPoint>
                 <assembly>

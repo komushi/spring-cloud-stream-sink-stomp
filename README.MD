@@ -151,7 +151,11 @@ docker run -e SCS_OPTS='<app_args>' -p <host_port>:<container_port> komushi/spri
 ```
 
 ```
-docker run -e SCS_OPTS='--stomp.withSockJS=true --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test' -p 8888:8080 komushi/spring-cloud-stream-sink-stomp
+docker run -e SCS_OPTS='--stomp.topic=toproute --stomp.withsockjs=true --spring.cloud.stream.bindings.input.destination=gemfire_topoute --spring.cloud.stream.bindings.input.group=1 --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test' -p 9400:8080 komushi/spring-cloud-stream-sink-stomp
+```
+
+```
+docker run -e SCS_OPTS='--stomp.topic=topdropoff --stomp.withsockjs=true --spring.cloud.stream.bindings.input.destination=gemfire_topdropoff --spring.cloud.stream.bindings.input.group=1 --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test' -p 9410:8080 komushi/spring-cloud-stream-sink-stomp
 ```
 
 ### 4.2 Entry Point Exec Mode
@@ -161,7 +165,11 @@ docker run -p <host_port>:<container_port> komushi/spring-cloud-stream-sink-stom
 ```
 
 ```
-docker run -p 8888:8080 komushi/spring-cloud-stream-sink-stomp --stomp.withSockJS=true --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test
+docker run -p 9400:8080 komushi/spring-cloud-stream-sink-stomp --stomp.topic=toproute --stomp.withsockjs=true --spring.cloud.stream.bindings.input.destination=gemfire_topoute --spring.cloud.stream.bindings.input.group=1 --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test
+```
+
+```
+docker run -p 9410:8080 komushi/spring-cloud-stream-sink-stomp --stomp.topic=topdropoff --stomp.withsockjs=true --spring.cloud.stream.bindings.input.destination=gemfire_topdropoff --spring.cloud.stream.bindings.input.group=1 --spring.rabbitmq.host=192.168.11.111 --spring.rabbitmq.port=5672 --spring.rabbitmq.username=test --spring.rabbitmq.password=test
 ```
 
 # TODO: use Full-Featured Broker - External Broker such as RabbitMQ

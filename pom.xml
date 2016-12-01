@@ -38,7 +38,7 @@
                   <exec>
                     <arg>java</arg>
                     <arg>-jar</arg>
-                    <arg>/maven/{project.artifactId}.jar</arg>
+                    <arg>/maven/${project.artifactId}.jar</arg>
                   </exec>
                 </entryPoint>
                 <assembly>

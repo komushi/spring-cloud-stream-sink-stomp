@@ -60,9 +60,9 @@ public class StompSinkConfiguration extends AbstractWebSocketMessageBrokerConfig
             topic = (String)message.getHeaders().get("amqp_receivedExchange");
         }
 
-        StompPayload stormPayload = new StompPayload(message.getPayload());
+        StompPayload stompPayload = new StompPayload(message.getPayload());
 
-        template.convertAndSend("/topic/" + topic, stormPayload);
+        template.convertAndSend("/topic/" + topic, stompPayload);
 
 
     }
